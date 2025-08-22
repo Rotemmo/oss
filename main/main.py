@@ -14,14 +14,7 @@ def main():
     llm = LocalLLM(enabled=args.llm, model_path=args.model_path)
     findings = scan_file(args.path, lang=args.lang, llm=llm)
 
-    if args.format == "json":
-        print(json.dumps([f.__dict__ for f in findings], ensure_ascii=False, indent=2))
-    else:
-        for f in findings:
-            line = f"{f.file}:{f.line} [{f.severity.upper()}][{f.rule_id}] {f.issue}"
-            if f.fix:
-                line += f" — {f.fix}"
-            print(line)
+    print(json.dumps([f.__dict__ for f in findings], ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     sys.exit(main())
